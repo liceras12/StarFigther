@@ -20,9 +20,7 @@ public:
 	// Sets default values for this pawn's properties
 	ANave();
 
-	/* The speed our ship moves around the level */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ship")
-		float MoveSpeed;
+	
 
 protected:
 	// Called when the game starts or when spawned
@@ -30,6 +28,10 @@ protected:
 
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Ship")
 		float Energy;
+
+	/* The speed our ship moves around the level */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ship")
+		float MoveSpeed;
 
 public:	
 	// Called every frame
@@ -41,4 +43,12 @@ public:
 	// Static names for axis bindings
 	static const FName MoveForwardBinding;
 	static const FName MoveRightBinding;
+
+	
+	FORCEINLINE float GetEnergy() const { return Energy; }
+	FORCEINLINE float GetMoveSpeed() const { return MoveSpeed; }
+	
+	FORCEINLINE void SetEnergy(float _Energy) { Energy = _Energy; }
+	FORCEINLINE void SetMoveSpeed(float _MoveSpeed) { MoveSpeed = _MoveSpeed; }
+
 };

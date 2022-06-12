@@ -34,7 +34,7 @@ ANave::ANave()
 void ANave::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
