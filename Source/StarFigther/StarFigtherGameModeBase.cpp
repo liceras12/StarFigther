@@ -20,7 +20,7 @@ void AStarFigtherGameModeBase::Tick(float DeltaTime)
 	//GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Yellow, FString::Printf(TEXT("Dentro de Tick")));
 	//GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Turquoise, FString::Printf(TEXT("Capsula generada %f"), ProbabilidadAparicionCapsula));
 
-	if (ProbabilidadAparicionCapsula < 5.0f) {
+	if (ProbabilidadAparicionCapsula < 50.0f) {
 
 		//Create the Shops
 		AGeneradorCapsulas* GeneradorCapsulaArma = GetWorld()->SpawnActor<AGeneradorCapsulasArmas>(AGeneradorCapsulasArmas::StaticClass());
@@ -29,7 +29,7 @@ void AStarFigtherGameModeBase::Tick(float DeltaTime)
 		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Turquoise, FString::Printf(TEXT("Capsula generada %s"), *Capsula->GetNombre()));
 
 	}
-	else if (ProbabilidadAparicionCapsula > 5.0f && ProbabilidadAparicionCapsula < 10.0f) {
+	else if (ProbabilidadAparicionCapsula > 50.0f && ProbabilidadAparicionCapsula < 100.0f) {
 
 		//Create the Shops
 		AGeneradorCapsulas* GeneradorCapsulaArma = GetWorld()->SpawnActor<AGeneradorCapsulasArmas>(AGeneradorCapsulasArmas::StaticClass());
@@ -38,7 +38,7 @@ void AStarFigtherGameModeBase::Tick(float DeltaTime)
 		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Turquoise, FString::Printf(TEXT("Capsula generada %s"), *Capsula->GetNombre()));
 
 	}
-	else if (ProbabilidadAparicionCapsula > 10.0f && ProbabilidadAparicionCapsula < 12.0f) {
+	else if (ProbabilidadAparicionCapsula > 100.0f && ProbabilidadAparicionCapsula < 120.0f) {
 
 		//Create the Shops
 		AGeneradorCapsulas* GeneradorCapsulaArma = GetWorld()->SpawnActor<AGeneradorCapsulasArmas>(AGeneradorCapsulasArmas::StaticClass());
@@ -47,7 +47,7 @@ void AStarFigtherGameModeBase::Tick(float DeltaTime)
 		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Turquoise, FString::Printf(TEXT("Capsula generada %s"), *Capsula->GetNombre()));
 
 	}
-	else if (ProbabilidadAparicionCapsula > 12.0f && ProbabilidadAparicionCapsula < 18.0f) {
+	else if (ProbabilidadAparicionCapsula > 120.0f && ProbabilidadAparicionCapsula < 180.0f) {
 
 		//Create the Shops
 		AGeneradorCapsulas* GeneradorCapsula = GetWorld()->SpawnActor<AGeneradorCapsulasEnergia>(AGeneradorCapsulasEnergia::StaticClass());

@@ -51,7 +51,7 @@ public:
 	void Fire();
 	void Fire01();
 
-	void FireArma1();
+	//void FireArma1();
 
 	UPROPERTY()
 		class UInventoryComponent* InventarioJugador;
@@ -59,12 +59,12 @@ public:
 	UFUNCTION()
 		void TakeItem(class AInventoryActor* _InventoryItem);
 	///
-	UPROPERTY()
+	/*UPROPERTY()
 		class UInventoryComponent* InventarioArmaJugador;
 	
-	/*UFUNCTION()
+	UFUNCTION()
 		void TakeCapsula(class ACapsulaArma1* _InventoryCapsula);
-	*/
+		*/
 	///
 
 	UFUNCTION()

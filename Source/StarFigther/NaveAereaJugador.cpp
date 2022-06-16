@@ -111,11 +111,17 @@ void ANaveAereaJugador::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 }
 
 void ANaveAereaJugador::Fire() {
-	bCanFire = true;
- 
-	const FVector FireDirection = FVector(FireForwardValue, FireRightValue, 0.0f).GetClampedToMaxSize(1.0f);
+	if (Arma1 == true) {
+		bCanFire = true;
 
-	FireShot(FireDirection);
+		const FVector FireDirection = FVector(FireForwardValue, FireRightValue, 0.0f).GetClampedToMaxSize(1.0f);
+
+		FireShot(FireDirection);
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Magenta, FString::Printf(TEXT("Arma1 DESACTIVADA")));
+	}
 }
 
 /*void ANaveAereaJugador::FireArma1() {
@@ -256,62 +262,36 @@ void ANaveAereaJugador::Probar()
 
 void ANaveAereaJugador::FireShot(FVector FireDirection)
 {
-	if (Arma1 == false) {
+	//if (Arma1 == false) {
 
 		// If it's ok to fire again
 		if (bCanFire == true)
 		{
-			// If we are pressing fire stick in a direction
-			/*if (FireDirection.SizeSquared() > 0.0f)
-			{*/
-			const FRotator FireRotation = FireDirection.Rotation();
-			// Spawn projectile at an offset from this pawn
-			const FVector SpawnLocation = GetActorLocation() + FireRotation.RotateVector(GunOffset);
+				// If we are pressing fire stick in a direction
+				/*if (FireDirection.SizeSquared() > 0.0f)
+				{*/
+				const FRotator FireRotation = FireDirection.Rotation();
+				// Spawn projectile at an offset from this pawn
+				const FVector SpawnLocation = GetActorLocation() + FireRotation.RotateVector(GunOffset);
 
-			UWorld* const World = GetWorld();
-			if (World != nullptr)
-			{
-				// spawn the projectile
-				World->SpawnActor<AProyectil>(SpawnLocation, FireRotation);
-			}
+				UWorld* const World = GetWorld();
+				if (World != nullptr)
+				{
+					// spawn the projectile
+					World->SpawnActor<AProyectil>(SpawnLocation, FireRotation);
+				}
 
-			//bCanFire = false;
-			World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &ANaveAereaJugador::ShotTimerExpired, FireRate);
+				//bCanFire = false;
+				World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &ANaveAereaJugador::ShotTimerExpired, FireRate);
 
-			// try and play the sound if specified
-			if (FireSound != nullptr)
-			{
-				UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-			}
+				// try and play the sound if specified
+				if (FireSound != nullptr)
+				{
+					UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+				}
 			bCanFire = false;
 			/*}*/
-		}
-	}
-	if(Arma1 == true)
-	{
-		while (bCanFire == true) {
-
-			const FRotator FireRotation = FireDirection.Rotation();
-			// Spawn projectile at an offset from this pawn
-			const FVector SpawnLocation = GetActorLocation() + FireRotation.RotateVector(GunOffset);
-
-			UWorld* const World = GetWorld();
-			if (World != nullptr)
-			{
-				// spawn the projectile
-				World->SpawnActor<AProyectil>(SpawnLocation, FireRotation);
-			}
-
-			//bCanFire = false;
-			//World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &ANaveAereaJugador::ShotTimerExpired, FireRate);
-
-			// try and play the sound if specified
-			if (FireSound != nullptr)
-			{
-				UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-			}
-		}
-	}
+		}	
 }
 
 void ANaveAereaJugador::ShotTimerExpired()
