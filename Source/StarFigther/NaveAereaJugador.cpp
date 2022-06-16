@@ -5,6 +5,7 @@
 #include "InventoryComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Proyectil.h"
 #include "UObject/UObjectArray.h"
 #include "GunAdapter.h"
@@ -15,7 +16,7 @@ ANaveAereaJugador::ANaveAereaJugador()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when ship does
-	CameraBoom->TargetArmLength = 1200.f;
+	CameraBoom->TargetArmLength = 1800.f;
 	CameraBoom->SetRelativeRotation(FRotator(-80.f, 0.f, 0.f));
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
@@ -44,7 +45,8 @@ ANaveAereaJugador::ANaveAereaJugador()
 
 	TMapPrueba.Add(2, 4.6f);
 
-
+	///
+	Arma1 = false;
 
 }
 
@@ -105,6 +107,7 @@ void ANaveAereaJugador::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("ListarObjetosContenedor"), IE_Pressed, this, &ANaveAereaJugador::ListarObjetosContenedor);
 	PlayerInputComponent->BindAction(TEXT("Probar"), IE_Pressed, this, &ANaveAereaJugador::Probar);
 
+	//PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ANaveAereaJugador::FireArma1);
 }
 
 void ANaveAereaJugador::Fire() {
@@ -114,6 +117,14 @@ void ANaveAereaJugador::Fire() {
 
 	FireShot(FireDirection);
 }
+
+/*void ANaveAereaJugador::FireArma1() {
+	Arma1
+
+	const FVector FireDirection = FVector(FireForwardValue, FireRightValue, 0.0f).GetClampedToMaxSize(1.0f);
+
+	FireShot(FireDirection);
+}*/
 
 void ANaveAereaJugador::Fire01() {
 	//bCanFire = true;
@@ -131,6 +142,12 @@ void ANaveAereaJugador::TakeItem(class AInventoryActor* _InventoryItem)
 	_InventoryItem->PickUp();
 	InventarioJugador->AddToInventory(_InventoryItem);
 }
+
+/*void ANaveAereaJugador::TakeCapsula(class ACapsulaArma1* _InventoryCapsula)
+{
+	_InventoryCapsula->PickUp();
+	InventarioArmaJugador->AddToInventoryArma1(_InventoryCapsula);
+}*/
 
 void ANaveAereaJugador::DropItem()
 {
@@ -164,9 +181,15 @@ void ANaveAereaJugador::NotifyHit(class UPrimitiveComponent* MyComp, AActor* Oth
 			}
 		}
 
-
-
 		TakeItem(InventoryItem);
+	}
+
+	ACapsulaArma1* Capsulainv = Cast<ACapsulaArma1>(Other);
+	if (Capsulainv != nullptr) {
+
+		Arma1 = true;
+		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Magenta, FString::Printf(TEXT("Arma1 ACTIVADA")));
+		//TakeCapsula(Capsulainv);
 	}
 }
 
@@ -233,12 +256,14 @@ void ANaveAereaJugador::Probar()
 
 void ANaveAereaJugador::FireShot(FVector FireDirection)
 {
-	// If it's ok to fire again
-	if (bCanFire == true)
-	{
-		// If we are pressing fire stick in a direction
-		/*if (FireDirection.SizeSquared() > 0.0f)
-		{*/
+	if (Arma1 == false) {
+
+		// If it's ok to fire again
+		if (bCanFire == true)
+		{
+			// If we are pressing fire stick in a direction
+			/*if (FireDirection.SizeSquared() > 0.0f)
+			{*/
 			const FRotator FireRotation = FireDirection.Rotation();
 			// Spawn projectile at an offset from this pawn
 			const FVector SpawnLocation = GetActorLocation() + FireRotation.RotateVector(GunOffset);
@@ -254,14 +279,38 @@ void ANaveAereaJugador::FireShot(FVector FireDirection)
 			World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &ANaveAereaJugador::ShotTimerExpired, FireRate);
 
 			// try and play the sound if specified
-			/*
 			if (FireSound != nullptr)
 			{
 				UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 			}
-			*/
 			bCanFire = false;
-		/*}*/
+			/*}*/
+		}
+	}
+	if(Arma1 == true)
+	{
+		while (bCanFire == true) {
+
+			const FRotator FireRotation = FireDirection.Rotation();
+			// Spawn projectile at an offset from this pawn
+			const FVector SpawnLocation = GetActorLocation() + FireRotation.RotateVector(GunOffset);
+
+			UWorld* const World = GetWorld();
+			if (World != nullptr)
+			{
+				// spawn the projectile
+				World->SpawnActor<AProyectil>(SpawnLocation, FireRotation);
+			}
+
+			//bCanFire = false;
+			//World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &ANaveAereaJugador::ShotTimerExpired, FireRate);
+
+			// try and play the sound if specified
+			if (FireSound != nullptr)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+			}
+		}
 	}
 }
 

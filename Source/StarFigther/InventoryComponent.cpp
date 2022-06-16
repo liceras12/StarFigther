@@ -41,4 +41,9 @@ void UInventoryComponent::RemoveFromInventory(AInventoryActor* _ActorToRemove)
 {
 	CurrentInventory.Remove(_ActorToRemove);
 }
+//CapsulaArma1
+int32 UInventoryComponent::AddToInventoryArma1(ACapsulaArma1* _CapsulaToAdd)
+{
+	return CurrentArma1.Add(_CapsulaToAdd);
+}
 

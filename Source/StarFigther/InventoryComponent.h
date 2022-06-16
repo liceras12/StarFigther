@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "InventoryActor.h"
+#include "CapsulaArma1.h"
 #include "InventoryComponent.generated.h"
 
 
@@ -33,6 +34,12 @@ public:
 
 	UFUNCTION()
 		void RemoveFromInventory(AInventoryActor* ActorToRemove);
+
+	UPROPERTY()
+		TArray<ACapsulaArma1*> CurrentArma1;
+
+	UFUNCTION()
+		int32 AddToInventoryArma1(ACapsulaArma1* _CapsulaToAdd);
 
 	
 

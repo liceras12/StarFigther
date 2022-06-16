@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "NaveAerea.h"
 #include "SlingShot.h"
+//#include "InventoryComponent.h"
 #include "NaveAereaJugador.generated.h"
 
 /**
@@ -35,6 +36,9 @@ public:
 	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
 		float FireRate;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		class USoundBase* FireSound;
+
 	/* Fire a shot in the specified direction */
 	void FireShot(FVector FireDirection);
 
@@ -47,11 +51,21 @@ public:
 	void Fire();
 	void Fire01();
 
+	void FireArma1();
+
 	UPROPERTY()
 		class UInventoryComponent* InventarioJugador;
 
 	UFUNCTION()
 		void TakeItem(class AInventoryActor* _InventoryItem);
+	///
+	UPROPERTY()
+		class UInventoryComponent* InventarioArmaJugador;
+	
+	/*UFUNCTION()
+		void TakeCapsula(class ACapsulaArma1* _InventoryCapsula);
+	*/
+	///
 
 	UFUNCTION()
 		void DropItem();
@@ -75,6 +89,9 @@ private:
 
 	/* Flag to control firing  */
 	uint32 bCanFire : 1;
+
+	/* Arma1 ->Ametralladora */
+	uint32 Arma1 : 1;
 
 	/** Handle for efficient management of ShotTimerExpired timer */
 	FTimerHandle TimerHandle_ShotTimerExpired;
