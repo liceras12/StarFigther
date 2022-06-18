@@ -303,7 +303,7 @@ void ANaveAereaJugador::ShotTimerExpired()
 void ANaveAereaJugador::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	//Spawn the Gun Adapter
 	AGunAdapter* GunAdapter = GetWorld()->SpawnActor<AGunAdapter>(AGunAdapter::StaticClass());
 	//Spawn the Shooter and set the Gun Adapter
