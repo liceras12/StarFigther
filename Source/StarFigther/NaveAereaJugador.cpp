@@ -55,6 +55,11 @@ void ANaveAereaJugador::Tick(float DeltaSeconds)
 	// Find movement direction
 	const float ForwardValue = GetInputAxisValue(MoveForwardBinding);
 	const float RightValue = GetInputAxisValue(MoveRightBinding);
+	
+	if (ForwardValue != 0 || RightValue != 0) {
+		movimiento = true;
+		ActionNave(movimiento);
+	}
 
 	if (ForwardValue != 0.f || RightValue != 0.0f) {
 		if (ForwardValue != FireForwardValue) {
@@ -332,4 +337,34 @@ void ANaveAereaJugador::Sling()
 		
 	//Fire
 	SlingShot->Sling();	
+}
+
+void ANaveAereaJugador::Subscribe(AActor* Subscriber)
+{
+	//Add the passed Subscriber
+	Subscribers.Add(Subscriber);
+}
+void ANaveAereaJugador::UnSubscribe(AActor* SubscriberToRemove)
+{
+	//Remove the passed Subscriber
+	Subscribers.Remove(SubscriberToRemove);
+}
+void ANaveAereaJugador::NotifySubscribers()
+{
+	//Loop for each Subscriber
+	for (AActor* Actor : Subscribers)
+	{
+		//Cast each of them to a concrete Subscriber
+		ISubscriber* Sub = Cast<ISubscriber>(Actor);
+		if (Sub)
+		{
+			//Notify each of them that something has changed, so they can execute their own routine
+				Sub->Update(this);
+		}
+	}
+}
+
+void ANaveAereaJugador::ActionNave(bool movimientodetec)
+{
+	NotifySubscribers();
 }

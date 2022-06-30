@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "NaveAerea.h"
 #include "SlingShot.h"
+#include "Subscriber.h"
+#include "Publisher.h"
 //#include "InventoryComponent.h"
 #include "NaveAereaJugador.generated.h"
 
@@ -12,7 +14,7 @@
  * 
  */
 UCLASS()
-class STARFIGTHER_API ANaveAereaJugador : public ANaveAerea, public ISlingShot
+class STARFIGTHER_API ANaveAereaJugador : public ANaveAerea, public APublisher, public ISlingShot
 {
 	GENERATED_BODY()
 	
@@ -111,6 +113,25 @@ public:
 	//Fire with the SlingShot
 	void Sling();
 
+
+	//Observer
+	//colocando partes de publisher
+	private:
+		//The Subscribers of this Publisher
+		UPROPERTY()
+			TArray<AActor*> Subscribers = TArray<AActor*>();
+
+	public:
+		//Add the pased Subscriber to the list
+		virtual void Subscribe(AActor* Subscriber);
+		//Remove the passed Subscriber from the list
+		virtual void UnSubscribe(AActor* SubscriberToRemove);
+		//Notify all the Subscribers that something has changed
+		virtual void NotifySubscribers();
+
+		void ActionNave(bool movimientodetec);
+
+		bool movimiento = false;
 
 protected:
 	// Called when the game starts or when spawned
