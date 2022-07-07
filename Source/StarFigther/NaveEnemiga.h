@@ -7,6 +7,8 @@
 #include "Subscriber.h"
 #include "Morph.h"
 #include "SlingShot.h"
+#include "NaveEnemigaStrategy.h"
+#include "State.h"
 #include "NaveEnemiga.generated.h"
 
 /**
@@ -25,7 +27,6 @@ public:
 	virtual void BeginPlay() override;
 	// Begin Actor Interface
 	virtual void Tick(float DeltaSeconds) override;
-
 
 	void Fire();
 
@@ -78,5 +79,35 @@ private:
 
 	/** Handle for efficient management of ShotTimerExpired timer */
 	FTimerHandle TimerHandle_ShotTimerExpired;
+//////////////////////////////////////////////////////////////////////////////
+public:
+	// Change the Maneuver and set "BattleStrategy" variable
+	void AlterManeuvers(ANave* myBattleStrategy);
+	// Engage with the current Battle Strategy
+	void Engage();
 
+private:
+	//The current Battle Strategy
+	INaveEnemigaStrategy* BattleStrategy;
+
+////////////////////////////////////////////////////////////////////////////
+private:
+	//The No Dollars State of this Slot Machine
+	IState* StateParalisis;
+
+	IState* State;
+
+public:
+
+	void Initialize();
+	//Insert a Coin
+	void Movimiento();
+	
+	IState* GetState();
+	//Get the No Dollars State of this Slot Machine
+	IState* GetStateParalisis();
+	//Get the String of the current State
+	FString GetCurrentState();
+
+	void SetState(IState* myState);
 };

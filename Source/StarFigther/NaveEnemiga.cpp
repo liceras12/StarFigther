@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
+#include "StateParalisis.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
 
@@ -204,4 +205,57 @@ void ANaveEnemiga::SetNewRotation(FVector TargetPosition, FVector CurrentPositio
 	EnemyRotation = NewDirection.Rotation();
 
 	SetActorRotation(EnemyRotation);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void ANaveEnemiga::AlterManeuvers(ANave* myBattleStrategy)
+{
+	//Try to cast the passed Strategy and set it to the current one
+	BattleStrategy = Cast<INaveEnemigaStrategy>(myBattleStrategy);
+	//Log Error if the cast failed
+	if (!BattleStrategy)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Red,TEXT("Invalid Cast! See Output log for more details"));
+		UE_LOG(LogTemp, Error, TEXT("AlterManeuvers(): The Actor is not a BattleShipStrategy!Are you sure that the Actor implements that interface ? "));
+	}
+}
+void ANaveEnemiga::Engage()
+{
+	//Log Error if the current Strategy is NULL
+	if (!BattleStrategy) {
+		UE_LOG(LogTemp, Error, TEXT("Engage(): BattleStrategy is NULL, make sure it's initialized.")); return; }
+			//Execute the current Strategy Maneuver
+			BattleStrategy->Maneuver();
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+void ANaveEnemiga::Initialize()
+{
+	StateParalisis = GetWorld()->SpawnActor<AStateParalisis>(AStateParalisis::StaticClass());
+	StateParalisis->SetNaveEnemiga(this);
+}
+
+void ANaveEnemiga::Movimiento()
+{
+	State->Movimiento();
+	MoveSpeed=0;
+}
+
+IState* ANaveEnemiga::GetState()
+{
+	return State;
+}
+
+IState* ANaveEnemiga::GetStateParalisis()
+{
+	return StateParalisis;
+}
+
+void ANaveEnemiga::SetState(IState* myState)
+{
+	State = myState;
+}
+
+FString ANaveEnemiga::GetCurrentState()
+{
+	//Returns the 'Name' of current State
+	return "Actual Nave State: " + State->ToString();
 }

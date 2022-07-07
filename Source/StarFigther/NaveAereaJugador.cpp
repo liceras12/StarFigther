@@ -56,10 +56,10 @@ void ANaveAereaJugador::Tick(float DeltaSeconds)
 	const float ForwardValue = GetInputAxisValue(MoveForwardBinding);
 	const float RightValue = GetInputAxisValue(MoveRightBinding);
 	
-	if (ForwardValue != 0 || RightValue != 0) {
+	/*if (ForwardValue != 0 || RightValue != 0) {
 		movimiento = true;
 		ActionNave(movimiento);
-	}
+	}*/
 
 	if (ForwardValue != 0.f || RightValue != 0.0f) {
 		if (ForwardValue != FireForwardValue) {
@@ -338,7 +338,7 @@ void ANaveAereaJugador::Sling()
 	//Fire
 	SlingShot->Sling();	
 }
-
+/*
 void ANaveAereaJugador::Subscribe(AActor* Subscriber)
 {
 	//Add the passed Subscriber
@@ -367,4 +367,4 @@ void ANaveAereaJugador::NotifySubscribers()
 void ANaveAereaJugador::ActionNave(bool movimientodetec)
 {
 	NotifySubscribers();
-}
+}*/

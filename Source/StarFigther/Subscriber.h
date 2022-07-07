@@ -24,5 +24,5 @@ class STARFIGTHER_API ISubscriber
 public:
 	//The pure virtual functions of the Subscriber
 	//virtual void Update(class ANaveAereaJugador* NaveAereaJugador) = 0;
-	virtual void Update(class APublisher* Publisher) = 0;
+	//virtual void Update(class APublisher* Publisher) = 0;
 };

@@ -12,7 +12,7 @@ class STARFIGTHER_API APublisher : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+/*public:
 	// Sets default values for this actor's properties
 	APublisher();
 
@@ -35,5 +35,5 @@ public:
 	//Remove the passed Subscriber from the list
 	virtual void UnSubscribe(AActor* SubscriberToRemove);
 	//Notify all the Subscribers that something has changed
-	virtual void NotifySubscribers();
+	virtual void NotifySubscribers();*/
 };

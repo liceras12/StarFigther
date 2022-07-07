@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "NaveAerea.h"
 #include "SlingShot.h"
-#include "Subscriber.h"
-#include "Publisher.h"
+//#include "Subscriber.h"
+//#include "Publisher.h"
 //#include "InventoryComponent.h"
 #include "NaveAereaJugador.generated.h"
 
@@ -14,7 +14,7 @@
  * 
  */
 UCLASS()
-class STARFIGTHER_API ANaveAereaJugador : public ANaveAerea, public APublisher, public ISlingShot
+class STARFIGTHER_API ANaveAereaJugador : public ANaveAerea//, public APublisher, public ISlingShot
 {
 	GENERATED_BODY()
 	
@@ -116,7 +116,7 @@ public:
 
 	//Observer
 	//colocando partes de publisher
-	private:
+	/*private:
 		//The Subscribers of this Publisher
 		UPROPERTY()
 			TArray<AActor*> Subscribers = TArray<AActor*>();
@@ -131,7 +131,7 @@ public:
 
 		void ActionNave(bool movimientodetec);
 
-		bool movimiento = false;
+		bool movimiento = false;*/
 
 protected:
 	// Called when the game starts or when spawned
